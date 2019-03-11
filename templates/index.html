@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="files/style.css"/>
+<link rel="stylesheet" type="text/css" href="files/stock-linechart-styles.css"/>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class = "col-md-3">
+      <div class="form-group col-form-label">
+        Date Range (global):
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <input type="text" class="form-control" id="startDateInputID" name="startDateInput" placeholder="Start Date" value="2017-01-01">
+        </div>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" id="endDateInputID" name="endDateInput" placeholder="End Date">
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group row">
+        <label for="stockLookup" class="col-sm-5 col-form-label">Lookup Stock:</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="stockLookup" name="stockLookupInput" placeholder="TSLA">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="trailingStopInput" class="col-sm-5 col-form-label">Trailing Stop:</label>
+        <div class="col-sm-7">
+          <input type="text" class="form-control" id="trailingStopInput" name="trailingStopInput" value="15">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <a href="" class="btn btn-info mb-2" onclick="lookup_stock(); return false">Plot Stock</a>
+        </div>
+        <div class="col-sm-6">
+          <a href="" onclick="generate_overview();return false;" class="btn btn-danger mb-2">Plot Portfolio</a>
+        </div>
+      </div>
+      <hr class ="thick">
+      <form id=addTransactionForm method="post" onsubmit="add_transaction(); return false;">
+        <div class="form-group row">
+          <legend class="col-sm-5 col-form-label">Transaction Type</legend>
+          <div class = "col-sm-7 radioButtons">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="buySell" id="buyButton" value="buy">
+              <label class="form-check-label" for="buyButton">Buy</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="buySell" id="sellButton" value="sell">
+              <label class="form-check-label" for="sellButton">Sell</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="dateText" class="col-sm-5 col-form-label">Date</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="dateText" name="dateInput" placeholder="YYYY-MM-DD">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="stockText" class="col-sm-5 col-form-label">Stock Symbol</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="stockText" name="stockInput" placeholder="MSFT">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="quantityText" class="col-sm-5 col-form-label">Quantity</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="quantityText" name="quantityInput" placeholder="20">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="priceText" class="col-sm-5 col-form-label">Price</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="priceText" name="priceInput" placeholder="102.2">
+          </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-info mb-2">Add Transaction</button>
+        </div>
+      </form>
+      <hr>
+      <form id=removeTransactionForm method="post" onsubmit="delete_transaction(); return false;">
+        <div class="form-group row">
+          <label for="rowIndex" class="col-sm-5 col-form-label">Row Number</label>
+          <div class="col-sm-7">
+            <input type="text" class="form-control" id="rowIndex" name="rowInput" placeholder="43">
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-info mb-2">Remove Transaction</button>
+        </div>
+      </form>
+    </div>
+    <div class = "col-md-9">
+      <div class="row">
+        <div class = "col-sm-7">
+          <form>
+            <div class="form-group">
+              <center>
+
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label class="btn btn-info active" onclick="view_transactions(); return false;" id="transactionslabel">
+                    <input type="radio" name="textbox-radio" id="transactions" autocomplete="off" checked> Transactions
+                  </label>
+                  <label class="btn btn-info" onclick="toggle_position();return false;" id="positionslabel">
+                    <input type="radio" name="textbox-radio" id="positions" autocomplete="off"> Positions
+                  </label>
+                </div>
+
+              </center>
+              <div id="textDisplayArea" style="height: 280px"></div>
+              <div width="100%" id="slidersDiv" class="row">
+                <div class="col-sm-4">
+                  Earnings Growth
+                  <input id="slider1" class="slider" type="range" min="-1" max="8" step=".01" value="0" onchange="updateFundamentals()" style= "width:150px"/>
+                </div>
+                <div class="col-sm-4">
+                  Dividend Growth
+                  <input id="slider2" class="slider" type="range" min="-.5" max="1" step=".01" value="0" onchange="updateFundamentals()" style= "width:150px"/>
+                </div>
+                <div class="col-sm-4">
+                  Book Val
+                  <input id="slider3" class="slider" type="range" min="0" max="10" step=".01" value="0" onchange="updateFundamentals()" style= "width:150px"/>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class = "col-sm-5">
+          <div id = "pieTitle">
+          </div>
+          <div id = "pieChart">
+          </div>
+        </div>
+      </div>
+      <div class = "row" id="graphAreaWrapper" style="position:relative">
+        <div class = "col-md-5">
+          <div id="fundamentalsGraph" style="height: 350px; width: 100%;"></div>
+        </div>
+        <div class = "col-md-7">
+          <div id="lineGraph" style="height: 350px; width: 100%;"></div>
+        </div>
+        <div id="largeGraphArea" style="position: absolute;top:0; left:0;width:100%;height:100%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="files/stock-linechart.js"></script>
+<script src="files/main.js"></script>
+</body>
+</html>

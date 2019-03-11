@@ -1,0 +1,106 @@
+svg > * {
+    user-select: none;
+}
+
+.SMA-20 {
+    stroke-dasharray: 10px;
+    fill: none;
+    stroke: #8CBEA3;
+    stroke-width: 1px;
+}
+
+.SMA-200 {
+    stroke-dasharray: 10px;
+    fill: none;
+    stroke: #335B8E;
+    stroke-width: 1px;
+}
+
+.Closing-Price {
+    fill: none;
+    stroke: #CB654F;
+    stroke-width: 2px;
+}
+
+.Earnings {
+    fill: none;
+    stroke: #CB654F;
+    stroke-width: 2px;
+}
+
+.Book-Val {
+    fill: none;
+    stroke: #8CBEA3;
+    stroke-width: 2px;
+}
+
+.Dividend {
+    fill: none;
+    stroke: #335B8E;
+    stroke-width: 2px;
+}
+
+.Revenue {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
+
+
+.Trailing-Stop {
+    fill: none;
+    stroke: #335B8E;
+    stroke-width: 4px;
+    stroke-opacity: .12;
+}
+
+circle.Closing-Price-hover {
+    fill: #CB654F;
+}
+
+.band {
+    fill: #8CBEA3;
+    fill-opacity: .2;
+}
+
+.band-hover {
+    fill: #8CBEA3;
+}
+
+.brush {
+    fill: steelblue;
+    opacity: 0.3;
+}
+
+.hover-line {
+    stroke: steelblue;
+    pointer-events: none;
+}
+.buy polygon, .sell polygon {
+    stroke: #fff;
+}
+.buy polygon {
+    fill: #0a0;
+    transition: transform 200ms ease;
+}
+.sell polygon {
+    fill: #a00;
+    transform: rotate(180deg);
+    transition: transform 200ms ease;
+}
+.buy polygon:hover {
+    transform: scale(2);
+}
+.sell polygon:hover {
+    transform: scale(2)rotate(180deg);
+}
+
+.other-line {
+    fill: none;
+    stroke: #aa0000;
+}
+
+.x-axis, .y-axis {
+    font-size: 12pt;
+    color: #555;
+}

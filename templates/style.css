@@ -1,0 +1,74 @@
+.container-fluid {
+  width: 96%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-info.focus {
+box-shadow: none;}
+
+.btn.focus {
+box-shadow: none;}
+
+.btn-group {
+margin: .8rem;
+}
+.col-form-label {
+font-weight: bold;
+}
+
+#slidersDiv {
+margin-top:.7rem;
+}
+
+
+div #textDisplayArea th, div #textDisplayArea td {
+padding-left: 4px;
+padding-right: 4px;
+font-size: 1rem;
+}
+
+
+div #textDisplayArea {
+overflow: scroll;
+overflow-x: hidden;
+}
+
+hr.thick {
+height: 2px;
+border: none;
+color: #333;
+background-color: #333;}
+
+.textLabels {
+text-anchor: middle;
+}
+
+.textNumbers {
+text-anchor: middle;
+font-size: .7rem;
+fill: black;
+fill-opacity: 0;
+}
+
+.radioButtons {
+padding-top:.5rem;
+}
+
+#pieChart {
+margin: 1rem;
+}
+
+#lineGraph {
+margin-top:1rem;
+}
+
+div .pieTitle {
+fill: #888;
+}
+
+.arc {
+cursor: pointer;}
+
+.arc:hover {
+fill-opacity: .5;}
