@@ -204,7 +204,5 @@ dmypy.json
 
 .idea/
 
-data.csv
-pricesLookup.csv
 
 # End of https://www.gitignore.io/api/python,pycharm
