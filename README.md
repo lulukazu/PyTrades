@@ -7,7 +7,16 @@ Install the following modules:
 
 __Use__
 
-run server.py and open your browser to your localhost address
+Run server.py and open your browser to your localhost address
+
+You'll be greeted with the default view.  The default view is an overview of your current stock portfolio, up to the last closing price.  Table shows detailed stock performance, pie chart shows the proportion of positions held relative to full portfolio, and the line graph shows your (active) portfolio's growth relative to the Vanguard Total Index fund (VTI).  The comparison is made assuming that the average amount in your actively invested portfolio is used to buy VTI. 
+
+![](/images/tracktrade-fullscreen.PNG?raw=true "Overview")
+
+Add individual stock transactions using the form on the left:
+
+![](/images/tracktrade-add.PNG?raw=true "Add a Transaction")
+
 
 __Credits__
 
