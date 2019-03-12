@@ -41,4 +41,4 @@ https://bl.ocks.org/michaschwab/bb0cd5c05fa61aa257b1e5c453cbb987
 
 Fix_yahoo_finance package for scraping stock price data from the yahoo finance site.
 
-Fundamentals 
+Financial data downloaded from MorningStar.
