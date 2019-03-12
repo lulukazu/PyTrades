@@ -7,7 +7,11 @@ Install the following modules:
 
 __Use__
 
-run server.py and open your browser to your localhost address
+Run server.py and open your browser to your localhost address
+
+You'll be greeted with the default view:
+!(/images/tracktrade-fullscreen.PNG?raw=true "Overview ")
+
 
 __Credits__
 
