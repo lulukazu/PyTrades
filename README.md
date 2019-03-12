@@ -17,7 +17,7 @@ Add individual stock transactions using the form on the left.  No need to put th
 
 ![](/images/tracktrade-add.png?raw=true "Add a Transaction")
 
-All individual transactions will be shown overlaying the stock price in single-stock view.  Below is what single-stock view looks like.  The stock you have chosen to plot will be highlighted in the table if it is in your portfolio.  A fundamentals line chart pulls up some basic financial information about the company.  Use the corresponding sliding bars above the chart to fit various linear trendlines to perform a very unsophisticated prediction of the future.
+All individual transactions will be shown overlaying the stock price in single-stock view.  Below is what single-stock view looks like.  The stock you have chosen to plot will be highlighted in the table if it is in your portfolio.  A fundamentals line chart pulls up some basic financial information about the company from the last 10 years.  Use the corresponding sliding bars above the chart to fit various linear trendlines to perform a very unsophisticated prediction of the future.
 
 ![](/images/tracktrade-fullscreen-onestock1.png?raw=true "Single-Stock View")
 
@@ -38,3 +38,7 @@ __Credits__
 
 Using the following JS line chart:
 https://bl.ocks.org/michaschwab/bb0cd5c05fa61aa257b1e5c453cbb987
+
+Fix_yahoo_finance package for scraping stock price data from the yahoo finance site.
+
+Fundamentals 
