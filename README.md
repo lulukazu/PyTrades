@@ -1,11 +1,11 @@
-__Installation__
+# Installation
 
 Built in Python 3.7.2
 
 Install the following modules:
 `pip install flask pandas pattern fix_yahoo_finance`
 
-__Use__
+# Use
 
 Run server.py and open your browser to your localhost address
 
@@ -32,11 +32,11 @@ Finally, the table in the center can be toggled to show either individual transa
 ![](/images/tracktrade-toggle.PNG?raw=true "Table")
 
 
-__Comments__
+# Comments
 
 This was a curiosity project for me for the dual purposes of learning python and becoming a more informed investor.  Hope it's some use to other people out there.
 
-__Credits__
+# Credits
 
 Using the following JS line chart:
 https://bl.ocks.org/michaschwab/bb0cd5c05fa61aa257b1e5c453cbb987
