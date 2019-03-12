@@ -23,6 +23,8 @@ All individual transactions will be shown overlaying the stock price in single-s
 
 Individual stock charts need a more detailed explanation.  Plotted is the stock's closing price on every day within the date range set in the upper left corner.  Green triangles represent buy points, red triangles represent sell points.  Hovering these triangles gives you the price and quantity sold.  Green dashed line shows the 20-day simple moving average, with green shading showing the 2-standard-deviation bounds calculated on the same interval.  Dark blue dashed line indicates the 500-day simple moving average, and the solid grey line shows the trailing stop price.  A trailing stop follows the price of a stock when it rises, but stays constant when it falls.  It is helpful for a loss-limiting consistent exit strategy.  You can set the gap in percent also in the top left corner. 
 
+This graph is zoomable by brushing.  Zoom out by double-clicking.
+
 ![](/images/tracktrade-stocklinechart.png?raw=true "Stock Line Chart")
 
 Finally, the table in the center can be toggled to show either individual transactions or portfolio overview.  In individual transactions view, you can use the numbered index of each line to remove individual transactions that you have entered in error.
