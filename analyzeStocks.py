@@ -10,7 +10,6 @@ transactionsFileName = 'data.csv'
 lookupTableFilename = 'pricesLookup.csv'
 
 
-
 def reloadTransactions():
     global transactionsList
     fileInPath = Path(transactionsFileName)
@@ -42,9 +41,9 @@ def lookupPriceRange(tickerSymbolList, startDate, endDate):
 
 
 def startUp():
-    fileInPath = Path(transactionsFileName)
+    transactionsPath = Path(transactionsFileName)
     lookupTablePath = Path(lookupTableFilename)
-    if fileInPath.exists():
+    if transactionsPath.exists():
         transactionsListLocal = pd.read_csv(transactionsFileName, sep='\t')
         globalStocksList = getStocksList(transactionsListLocal).tolist()
         todayDate = date.today()
@@ -146,7 +145,7 @@ def lookupOnlyDifference(storedDF, stocksListRequested, firstDateObj, lastDateOb
     return outputDFLocal
 
 
-startUp()
+
 
 
 def lookupPriceFromTableOnly(tickerSymbolList, startDate, endDate):
