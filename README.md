@@ -15,7 +15,7 @@ You'll be greeted with the default view.  The default view is an overview of you
 
 Add individual stock transactions using the form on the left:
 
-![](/images/tracktrade-add.PNG?raw=true "Add a Transaction")
+![](/images/tracktrade-add.png?raw=true "Add a Transaction")
 
 
 __Credits__
