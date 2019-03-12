@@ -19,7 +19,7 @@ Add individual stock transactions using the form on the left.  No need to put th
 
 All individual transactions will be shown overlaying the stock price in single-stock view.  Below is what single-stock view looks like.  The stock you have chosen to plot will be highlighted in the table if it is in your portfolio.  A fundamentals line chart pulls up some basic financial information about the company.  Use the corresponding sliding bars above the chart to fit various linear trendlines to perform a very unsophisticated prediction of the future.
 
-![](/images/tracktrade-fullscreen-onestock.png?raw=true "Single-Stock View")
+![](/images/tracktrade-fullscreen-onestock1.png?raw=true "Single-Stock View")
 
 Individual stock charts need a more detailed explanation.  Plotted is the stock's closing price on every day within the date range set in the upper left corner.  Green triangles represent buy points, red triangles represent sell points.  Hovering these triangles gives you the price and quantity sold.  Green dashed line shows the 20-day simple moving average, with green shading showing the 2-standard-deviation bounds calculated on the same interval.  Dark blue dashed line indicates the 500-day simple moving average, and the solid grey line shows the trailing stop price.  A trailing stop follows the price of a stock when it rises, but stays constant when it falls.  It is helpful for a loss-limiting consistent exit strategy.  You can set the gap in percent also in the top left corner. 
 
