@@ -43,6 +43,7 @@ def view_transactions():
 
 @app.route('/get-overview-table/')
 def overview_table():
+    startUp()
     stringToday = str(date.today())
     dataFrame = makeSummaryDF(stringToday)
     nonZeroDF = dataFrame.loc[dataFrame['Quantity'] != 0]
