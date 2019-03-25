@@ -18,35 +18,37 @@ def deleteTransaction(row):
     transactionsList = transactionsList.drop(row)
     # transactionsList.index = range(len(transactionsList.index))
     transactionsList.to_csv('data.csv', sep='\t', index=False)
-
-
-def addNewTransaction():
-    todayDate = date.today
-    columnNames = ['Type', 'Date', 'Stock Symbol', 'Quantity', 'Price', 'Total Amount']
-    if fileInPath.exists():
-        transactionsList = pd.read_csv('data.csv', sep='\t')
-    else:
-        transactionsList = pd.DataFrame(columns=columnNames)
-
-    typeInput = input("Transaction type (buy/sell):")
-    dateInput = input("Date (YYYY-MM-DD):")
-    stockInput = input("Stock name:")
-    quantInput = int(input("Quantity:"))
-    priceInput = float(input("Unit price:"))
-    calcCost = np.round(priceInput * quantInput, 2)
-
-    if not dateInput:
-        dateInput = todayDate
-
-    transactionsList.loc[transactionsList.shape[0]] = [dateInput, typeInput, stockInput, quantInput, priceInput,
-                                                       calcCost]
-
-    print(transactionsList)
-    transactionsList.to_csv('data.csv', sep='\t', index=False)
+#
+#
+# def addNewTransaction():
+#     todayDate = date.today
+#     columnNames = ['Type', 'Date', 'Stock Symbol', 'Quantity', 'Price', 'Total Amount']
+#     if fileInPath.exists():
+#         transactionsList = pd.read_csv('data.csv', sep='\t')
+#     else:
+#         transactionsList = pd.DataFrame(columns=columnNames)
+#
+#     typeInput = input("Transaction type (buy/sell):")
+#     dateInput = input("Date (YYYY-MM-DD):")
+#     stockInput = input("Stock name:")
+#     quantInput = int(input("Quantity:"))
+#     priceInput = float(input("Unit price:"))
+#     calcCost = np.round(priceInput * quantInput, 2)
+#
+#     if not dateInput:
+#         dateInput = todayDate.strftime('%Y-%m-%d')
+#         print(dateInput)
+#         print(type(dateInput))
+#
+#     transactionsList.loc[transactionsList.shape[0]] = [dateInput, typeInput, stockInput, quantInput, priceInput,
+#                                                        calcCost]
+#
+#     print(transactionsList)
+#     transactionsList.to_csv('data.csv', sep='\t', index=False)
 
 
 def addNewTransactionNoPrompt(typeInput, dateInput, stockInput, quantInput, priceInput):
-    todayDate = date.today
+    todayDate = date.today()
     columnNames = ['Date', 'Type', 'Stock Symbol', 'Quantity', 'Price', 'Total Amount']
     if fileInPath.exists():
         transactionsList = pd.read_csv('data.csv', sep='\t')
@@ -57,7 +59,9 @@ def addNewTransactionNoPrompt(typeInput, dateInput, stockInput, quantInput, pric
     calcCost = np.round(priceInput * quantInput, 2)
 
     if not dateInput:
-        dateInput = todayDate
+        dateInput = todayDate.strftime('%Y-%m-%d')
+        print(dateInput)
+        print(type(dateInput))
 
     indexNew = transactionsList.shape[0]
     transactionsList.loc[indexNew] = [dateInput, typeInput, stockInput, quantInput, priceInput,
