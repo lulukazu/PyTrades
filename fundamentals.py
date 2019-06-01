@@ -1,4 +1,5 @@
-from pattern.web import download
+# from pattern.web import download
+import requests
 import pandas as pd
 from io import StringIO
 from datetime import *
@@ -9,10 +10,11 @@ pd.options.mode.chained_assignment = None
 
 def downloadOne(stockName):
     URLstring = "http://financials.morningstar.com/ajax/exportKR2CSV.html?t=" + stockName
+    hdr = {'Referer': 'http://financials.morningstar.com/income-statement/is.html?t=' + stockName + '&region=usa&culture=en-US'}
     try:
-        dataString = download(URLstring, unicode=True)
-
-        dataObj = StringIO(dataString)
+        # dataString = download(URLstring, unicode=True)
+        req = requests.get(URLstring, headers=hdr)
+        dataObj = StringIO(req.text)
         dataDF = pd.read_csv(dataObj, header=2, index_col=0, thousands=',')
         dataDFTranspose = dataDF.transpose()
         dataFrame = dataDFTranspose[['Revenue USD Mil', 'Earnings Per Share USD', 'Book Value Per Share * USD',
@@ -26,6 +28,8 @@ def downloadOne(stockName):
         today = date.today()
         stringToday = today.strftime('%Y-%m')
         dataFrame.index = dataFrame.index.str.replace('TTM', stringToday)
+        print("Data Acquired")
+        print(dataFrame)
 
     except:
         print("No Data")
@@ -68,11 +72,9 @@ def drawFutureTrend(dataFrame, alpha, beta, gamma):
         freqString = '1Y'
         endDateRange = today + pd.DateOffset(years=4)
 
-    print(dataFrame.index)
     startDateRange = today - pd.DateOffset(years=9)
 
     dateRange = pd.date_range(start=startDateRange, end=endDateRange, freq=freqString)
-    print(dateRange)
 
     # stringToday = today.strftime('%Y-%m')
 
@@ -80,7 +82,7 @@ def drawFutureTrend(dataFrame, alpha, beta, gamma):
     dataFrameOut = pd.DataFrame(data=dataOutput, index=dateRange)
 
     dataFrameOut.index.name = 'Date'
-    print(dataFrameOut)
+
     return dataFrameOut
 
 # df = downloadOne('GOOG')
