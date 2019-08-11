@@ -29,6 +29,7 @@ def getStocksList(dataFrame):
 def lookupPriceRange(tickerSymbolList, startDate, endDate):
     import fix_yahoo_finance
     fix_yahoo_finance = importlib.reload(fix_yahoo_finance)
+    print(tickerSymbolList)
     try:
         data = fix_yahoo_finance.download(tickerSymbolList, start=startDate, end=endDate, as_panel=True)
         dataClose = data["Close"]
@@ -95,7 +96,6 @@ def prev_weekday(adate):
 
 
 def lookupOnlyDifference(storedDF, stocksListRequested, firstDateObj, lastDateObj):
-
     if isinstance(stocksListRequested, list):
         stocksListRequested = stocksListRequested
     else:
@@ -117,6 +117,7 @@ def lookupOnlyDifference(storedDF, stocksListRequested, firstDateObj, lastDateOb
     if firstDateObj >= minDateObj and lastWeekday <= maxDateObj and set(stocksListRequested).issubset(currentStocksList):
         outputDFLocal = storedDF
     else:
+        storedDFOriginal = storedDF
         # lookup only the new stocks with original dates
         if not set(stocksListRequested).issubset(currentStocksList):
             diffStocksList = list(set(stocksListRequested) - set(currentStocksList))
@@ -125,22 +126,26 @@ def lookupOnlyDifference(storedDF, stocksListRequested, firstDateObj, lastDateOb
             if lengthNewStocks == 1:
                 newStocksDF.name = diffStocksList[0]
 
-            storedDF = pd.concat([storedDF, newStocksDF], axis=1, join_axes=[storedDF.index])
+            if newStocksDF != []:
+                storedDFOriginal = pd.concat([storedDFOriginal, newStocksDF], axis=1, join_axes=[storedDFOriginal.index])
 
         # now lookup new date ranges
-        updatedStocksList = storedDF.columns.values.tolist()
+        updatedStocksList = storedDFOriginal.columns.values.tolist()
         if firstDateObj < minDateObj:
             newDatesDF1 = lookupPriceRange(updatedStocksList, firstDateStr, currentFirstDateMinus1Str)
-            storedDF = pd.concat([storedDF, newDatesDF1], axis=0, join='outer', sort=True)
-            storedDF.sort_index(axis=0, inplace=True)
-            storedDF = storedDF[~storedDF.index.duplicated(keep='first')]
+            if newDatesDF1 != []:
+                storedDFOriginal = pd.concat([storedDFOriginal, newDatesDF1], axis=0, join='outer', sort=True)
+                storedDFOriginal.sort_index(axis=0, inplace=True)
+                storedDFOriginal = storedDFOriginal[~storedDFOriginal.index.duplicated(keep='first')]
         if lastWeekday > maxDateObj:
             newDatesDF2 = lookupPriceRange(updatedStocksList, currentLastDatePlus1Str, lastDateStr)
-            storedDF = pd.concat([storedDF, newDatesDF2], axis=0, join='outer', sort=True)
-            storedDF.sort_index(axis=0, inplace=True)
-            storedDF = storedDF[~storedDF.index.duplicated(keep='first')]
-        outputDFLocal = storedDF
-
+            if newDatesDF2 != []:
+                storedDFOriginal = pd.concat([storedDFOriginal, newDatesDF2], axis=0, join='outer', sort=True)
+                storedDFOriginal.sort_index(axis=0, inplace=True)
+                storedDFOriginal = storedDFOriginal[~storedDFOriginal.index.duplicated(keep='first')]
+        outputDFLocal = storedDFOriginal
+        # numNulls = outputDFLocal.isnull().sum().sum()
+        # print(numNulls)
         updateLookupTable(lookupTableFilename, outputDFLocal)
     return outputDFLocal
 
@@ -175,6 +180,8 @@ def currentPrices(tickerSymbolList, thisDay):
     # today = date.today()
     aWeekAgo = pd.to_datetime(thisDay) - timedelta(days=4)
     oneWeekData = lookupPriceFromTableOnly(tickerSymbolList, aWeekAgo, thisDay)
+    # print(oneWeekData)
+    # print(thisDay)
     lastData = oneWeekData.iloc[-1]
     return lastData
 
@@ -257,6 +264,8 @@ def getCurrentValue(stocksNameList, stockHoldings, thisDay):
 
 
 def makeSummaryDF(thisDay):
+
+    # print(thisDay)
     transactions = filterTransactions('2000-01-01', thisDay)
     names = getStocksList(transactions)
     quantities = getCurrentQuantities(names, transactions)
