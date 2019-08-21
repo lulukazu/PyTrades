@@ -3,7 +3,7 @@
 Built in Python 3.7.2
 
 Install the following modules:
-`pip install flask pandas pattern fix_yahoo_finance`
+`pip install flask pandas pattern yfinance`
 
 # Use
 
