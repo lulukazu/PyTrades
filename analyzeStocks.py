@@ -3,6 +3,7 @@ from datetime import *
 from pathlib import Path
 import pandas as pd
 import importlib
+from sys import exit
 
 pd.options.mode.chained_assignment = None
 pd.set_option('display.max_columns', None)
@@ -27,15 +28,15 @@ def getStocksList(dataFrame):
 
 
 def lookupPriceRange(tickerSymbolList, startDate, endDate):
-    import fix_yahoo_finance
-    fix_yahoo_finance = importlib.reload(fix_yahoo_finance)
+    import yfinance as yf
+    yf = importlib.reload(yf)
     print(tickerSymbolList)
     try:
-        data = fix_yahoo_finance.download(tickerSymbolList, start=startDate, end=endDate, as_panel=True)
+        data = yf.download(tickerSymbolList, start=startDate, end=endDate, as_panel=True)
         dataClose = data["Close"]
         print('DATA LOADED')
     except ValueError:
-        print("Did not succesfully load data")
+        print("Did not successfully load data")
         dataClose = []
 
     return dataClose  # in form of dataframe
@@ -120,29 +121,41 @@ def lookupOnlyDifference(storedDF, stocksListRequested, firstDateObj, lastDateOb
         storedDFOriginal = storedDF
         # lookup only the new stocks with original dates
         if not set(stocksListRequested).issubset(currentStocksList):
+            print('Adding new stock to lookup table...')
             diffStocksList = list(set(stocksListRequested) - set(currentStocksList))
             lengthNewStocks = len(diffStocksList)
             newStocksDF = lookupPriceRange(diffStocksList, currentFirstDateStr, currentLastDateStr)
             if lengthNewStocks == 1:
                 newStocksDF.name = diffStocksList[0]
 
-            if newStocksDF != []:
+            if len(newStocksDF) != 0:
                 storedDFOriginal = pd.concat([storedDFOriginal, newStocksDF], axis=1, join_axes=[storedDFOriginal.index])
+            else:
+                print('...lookup FAILED')
+                exit('exited')
 
         # now lookup new date ranges
         updatedStocksList = storedDFOriginal.columns.values.tolist()
         if firstDateObj < minDateObj:
+            print('Adding to start of date range...')
             newDatesDF1 = lookupPriceRange(updatedStocksList, firstDateStr, currentFirstDateMinus1Str)
-            if newDatesDF1 != []:
+            if len(newDatesDF1) != 0:
                 storedDFOriginal = pd.concat([storedDFOriginal, newDatesDF1], axis=0, join='outer', sort=True)
                 storedDFOriginal.sort_index(axis=0, inplace=True)
                 storedDFOriginal = storedDFOriginal[~storedDFOriginal.index.duplicated(keep='first')]
+            else:
+                print('...lookup FAILED')
+                exit('exited')
         if lastWeekday > maxDateObj:
+            print('Adding to end of date range...')
             newDatesDF2 = lookupPriceRange(updatedStocksList, currentLastDatePlus1Str, lastDateStr)
-            if newDatesDF2 != []:
+            if len(newDatesDF2) != 0:
                 storedDFOriginal = pd.concat([storedDFOriginal, newDatesDF2], axis=0, join='outer', sort=True)
                 storedDFOriginal.sort_index(axis=0, inplace=True)
                 storedDFOriginal = storedDFOriginal[~storedDFOriginal.index.duplicated(keep='first')]
+            else:
+                print('...lookup FAILED')
+                exit('exited')
         outputDFLocal = storedDFOriginal
         # numNulls = outputDFLocal.isnull().sum().sum()
         # print(numNulls)
@@ -455,6 +468,7 @@ def generateGainLossOverTime(startDate, endDate):
     VTICompare = ((VTICompare - VTICompare[0]) / VTICompare[0]) * 100
 
     gainLossSeries = pd.Series(data=gainLossPercent, index=rangeDate, name='Gain/Loss')
+    print(gainLossSeries)
     gainLossSeries.index.name = 'Date'
     return gainLossSeries, VTICompare
 

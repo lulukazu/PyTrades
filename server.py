@@ -108,7 +108,6 @@ def get_gain_loss():
     gainLossSeries, VTICompare = generateGainLossOverTime(startDate, endDate)
     csvGainLoss = gainLossSeries.to_csv(header=True)
     csvVTI = VTICompare.to_csv(header=True)
-
     return Response(json.dumps({'gainLoss': csvGainLoss, 'VTI': csvVTI}),
                     mimetype='application/json')
 
